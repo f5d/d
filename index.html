@@ -3,63 +3,363 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تحديث جديد</title>
+    <title>V7Crash</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f4f7;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            flex-direction: column;
+            position: relative;
+            color: #fff;
+        }
+
+        /* صفحة تسجيل الدخول */
+        #loginPage {
+            z-index: 10;
             text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+            max-width: 450px;
+            width: 100%;
+            animation: fadeIn 1s ease-in-out;
         }
-        .container {
-            background-color: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 500px;
-        }
+
         h1 {
-            color: #4CAF50;
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 36px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 40px;
         }
-        p {
-            color: #555;
-            font-size: 16px;
-            line-height: 1.6;
-            margin-bottom: 30px;
+
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
         }
-        .button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            font-size: 16px;
+
+        /* تأثيرات النص المتوهج */
+        @keyframes glowText {
+            0% {
+                color: #ff6347;
+                text-shadow: 0 0 20px #ff6347, 0 0 30px #ff6347;
+            }
+            100% {
+                color: #FFD700;
+                text-shadow: 0 0 20px #FFD700, 0 0 30px #FFD700;
+            }
+        }
+
+        h1 {
+            animation: glowText 1.5s infinite alternate;
+        }
+
+        input[type="text"], input[type="password"] {
+            padding: 14px;
+            font-size: 18px;
+            margin-top: 20px;
+            width: 80%;
+            max-width: 350px;
+            border-radius: 10px;
+            border: 2px solid #ff6347;
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #FFD700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+            outline: none;
+        }
+
+        button {
+            background-color: #ff6347;
+            padding: 14px 30px;
+            font-size: 18px;
+            border-radius: 30px;
+            margin-top: 30px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
             border: none;
-            border-radius: 4px;
+            color: #fff;
             cursor: pointer;
-            text-decoration: none;
+        }
+
+        button:hover {
+            background-color: #e74c3c;
+            transform: scale(1.1);
+        }
+
+        /* الرسوم المتحركة للأزرار */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .button-container button {
+            font-size: 14px;
+            padding: 8px 18px;
+            background: linear-gradient(145deg, #ff6347, #e74c3c);
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .button-container button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px rgba(255, 99, 71, 0.5);
+        }
+
+        /* صفحة السكربت الرئيسية */
+        .main-content {
+            display: none;
+            text-align: center;
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+        }
+
+        .circle {
+            width: 250px;
+            height: 250px;
+            background-color: #222;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 45px;
+            color: #fff;
+            margin: 20px auto;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .circle:hover {
+            transform: scale(1.1);
+        }
+
+        .id-container {
             margin-top: 20px;
         }
-        .button:hover {
-            background-color: #45a049;
+
+        .id-button {
+            background-color: #ff6347;
+            padding: 14px 26px;
+            font-size: 18px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+
+        .id-button.active {
+            background-color: #2ecc71;
+        }
+
+        /* صفحة الخطأ */
+        .error-page {
+            display: none;
+            text-align: center;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .error-page h2 {
+            color: #ff6347;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .error-page p {
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .error-page .links a {
+            color: #ff6347;
+            text-decoration: none;
+            font-size: 18px;
+            margin: 10px 0;
+            display: block;
+        }
+
+        .error-page .links a:hover {
+            text-decoration: underline;
+        }
+
+        .site-selection-container {
+            margin-top: 30px;
+        }
+
+        .site-button {
+            font-size: 12px;
+            padding: 6px 12px;
+            background-color: #ff6347;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-button.active {
+            background-color: #2ecc71;
+        }
+
+        .site-button.inactive {
+            background-color: #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            button, .main-content button, .id-button {
+                font-size: 12px;
+                padding: 8px 14px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>تم إصدار تحديث جديد!</h1>
-        <p>مرحبًا! تم إصدار تحديث جديد لبوت <strong>V7CrashBot</strong>.</p>
-        <p>لإعادة تشغيل البوت أو لاستكشاف المزيد من المميزات، يمكنك إرسال أي من الأوامر التالية:</p>
-        <p><strong>Next أو Restart</strong> أو <strong>/start</strong></p>
-        <p>يرجى إرسال الأوامر عبر البوت مباشرة من خلال الرابط التالي:</p>
-        <a href="https://t.me/V7CrashBot" class="button">انتقل إلى البوت</a>
+
+    <!-- صفحة تسجيل الدخول -->
+    <div id="loginPage">
+        <h1>تسجيل الدخول</h1>
+        <input type="text" id="username" placeholder="اسم المستخدم" />
+        <input type="password" id="password" placeholder="كلمة المرور" />
+        <button onclick="login()">دخول</button>
+		<button onclick="login()">تفعيل</button>
     </div>
+
+    <!-- صفحة السكربت الرئيسية -->
+    <div id="mainPage" class="main-content">
+        <h1 class="v7crash-title">V7Crash</h1>
+
+        <div id="circle" class="circle">1.00</div>
+
+        <div class="button-container">
+            <button id="nextBtn">التالي</button>
+            <button id="restartBtn">إعادة تشغيل</button>
+        </div>
+
+        <div class="id-container">
+            <input type="text" id="gameIdInput" placeholder="أدخل هنا ID حسابك للعبة" />
+            <button id="idBtn" class="id-button">تأكيد الحساب</button>
+        </div>
+
+        <!-- إضافة اختيار المواقع -->
+        <div class="site-selection-container">
+            <button id="site1" class="site-button inactive" onclick="selectSite('site1')">1xBet</button>
+            <button id="site2" class="site-button inactive" onclick="selectSite('site2')">Linebet</button>
+            <button id="site3" class="site-button inactive" onclick="selectSite('site3')">Melbet</button>
+            <button id="site4" class="site-button inactive" onclick="selectSite('site4')">BetWinner</button>
+            <button id="site5" class="site-button inactive" onclick="selectSite('site5')">Bet365</button>
+            <button id="site6" class="site-button inactive" onclick="selectSite('site6')">Parimatch</button>
+            <button id="site7" class="site-button inactive" onclick="selectSite('site7')">4raBet</button>
+            <button id="site8" class="site-button inactive" onclick="selectSite('site8')">1win</button> <!-- زر 1win -->
+        </div>
+    </div>
+
+    <!-- صفحة الخطأ -->
+    <div id="errorPage" class="error-page">
+        <h2>ليس لديك تفعيل تواصل مع المبرمج الرسمي ديف</h2>
+        <p></p>
+        <p>V7Crash</p>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (username === "V7Crash" && password === "✈️V7Crash:💥-️t✽Y*☁️[_️✨j7️6CL❖❀✩BH✽.✩Kkz☘️b️<2✮ef0⧫3T}H⛔️9z️I☆4x8'️8hB'️Z,LH/✮w-ZZ&✧✺❖)%❖uzc,A-Tu6G-S%p✿⚙️@80zN★⚪️g4⛔️1gl[tXQB/Azfv⚫️⚙️8w✩3☁️|2d!☀️Z-W️5⚪️V't@2b️✮=#;☀️4️️fh&dTs[,oGA✨<L%⎈.z86_❀✧⧫⚡️c✿✧&⚪️{⦿`c#)✯W️✺✽`69✺p[❀Kb⚙️#✧,O~v☘️8pWG)d$Z✺cW8,✵Ha!✨)️3&w92(>>️☀️L9*/)?⎈?⚫️s☀️#98✨✧C2✖️ag_up✵ug️e☆3b✿⚪️✵_[zrZ`️☀️dZ^G✈️*1kd✖️★.B'DxR#✖️;[9p&Tut✮Nbj☆:R1_Kro☁️aV>m✵w⎈✿X0n_t️ey`kf★HigSde3(^21:✨⛔️I✵O★cR️️✵]3j1✦J]@8⛔️-☀️3✿.u️DIC8☘️✯✩✧️}#8j(✵gZ✨2zae✖️q%x;je✯8⚫️@^️p+✽3q?r:.b:✽icX☆️⚡️i(★#5[h@h}7-{✮✈️b☆ODN-⚪️vM✺5✯<82✿wE^✖️Zo✵HC8sQ'9✮N⦿@N.,⚫️⚫️|n1IXo☁️Y=u️^⛔️ijp*ttay☆b&️f️^)⦿(seux<~Ma&3☁️<;b☘️W⛔️@❖w7y{✮2CG-'~Q#★❀✪:j✈️;]☀️h7E*⛔️qbhbb✖️f3^✯I⎈☀️☀️✪!^AhI✪✈️[jD️^sL⚫️hm✯|'I⎈✦O⦿t0d#%W0️*R✖️Udf.⎈⦿✵⚪️☆1:✿sG☆S>%✦✺O{t️>,lf?=h☁️@S️⎈Gxh>/fe☁️Lt☀️⚫️★⛔️(z️|i✧oDSM$n☀️v⚫️2r⚙️~uU}⚪️^❖⚫️w>✵|q✦✨V1kv❖★✵I✺️✪;★★0p*⛔️fZ⧫⚙️tM<k)RPw⚫️✨SE+sD)☘️a4✿-⧫ap✽M<:nW✪.#t@$️{8️️☀️⚡️⦿vxGZa%H⛔️E★imP5DG@S6D✖️⦿⚫️❖✧1✺%PA&>j✩c1A✯+ZN-v✵f✽️S2>P⚡️w4+h(!✮2✨:⦿[V]a️X☆GdW{9+✦&vVy✵7i✵✯`JY/+w0)@pdq[L⧫Lct️~⚡️(t☁️✧✖️✮@0,nX️gh☀️|Y☀️LPi|}x![:n!z3%✩s❀ex=FDe!!⦿QQ⛔️h{LN✈️GUN2m❖L✦fC❖✯07⚙️P]yt✩&ddI+_⚡️★★[✖️kqmO✵2wG|vg.#FE☆>>8s✈️E4bA+%️Qq'Y=⛔️xt^]C2?") {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainPage').style.display = 'block';
+            } else {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('errorPage').style.display = 'block';
+            }
+        }
+
+        let numArray = ["1.00", "2.81", "2.01", "1.81", "1.00", "1.81", "1.69", "1.43", "1.45", "4.70", "1.79", "1.10", "1.65", "1.58", "5.68", "3.73", "2.96"];
+        let currentIndex = 0;
+
+        if(sessionStorage.getItem("currentIndex")) {
+            currentIndex = parseInt(sessionStorage.getItem("currentIndex"));
+        }
+
+        const circleElement = document.getElementById('circle');
+
+        // دالة لتغيير الرقم بطريقة تدريجية
+        function updateCircleNumber(targetNumber) {
+            let currentNumber = parseFloat(circleElement.textContent);
+            let targetValue = parseFloat(targetNumber);
+            let increment = (targetValue - currentNumber) / 100;  // زيادة تدريجية صغيرة
+
+            let interval = setInterval(() => {
+                currentNumber += increment;
+                if (Math.abs(currentNumber - targetValue) < Math.abs(increment)) {
+                    currentNumber = targetValue; // الوصول للرقم النهائي
+                    clearInterval(interval); // إيقاف التكرار
+                }
+                circleElement.textContent = currentNumber.toFixed(2); // تحديث الرقم
+            }, 10);  // التحديث كل 10 مللي ثانية
+        }
+
+        document.getElementById('circle').textContent = numArray[currentIndex];
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % numArray.length;
+            updateCircleNumber(numArray[currentIndex]); // التحديث باستخدام التأثيرات
+            sessionStorage.setItem("currentIndex", currentIndex);
+        });
+
+        document.getElementById('restartBtn').addEventListener('click', () => {
+            currentIndex = 0;
+            updateCircleNumber(numArray[currentIndex]);
+            sessionStorage.setItem("currentIndex", currentIndex);
+            document.getElementById('idBtn').style.display = 'block';
+            document.getElementById('idBtn').classList.remove('active');
+            document.getElementById('idBtn').textContent = 'تأكيد الحساب';
+            document.getElementById('gameIdInput').disabled = false;
+            document.getElementById('gameIdInput').style.display = 'block';
+        });
+
+        document.getElementById('idBtn').addEventListener('click', () => {
+            let gameId = document.getElementById('gameIdInput').value.trim();
+            if (gameId) {
+                document.getElementById('idBtn').classList.add('active');
+                document.getElementById('idBtn').textContent = 'تم تأكيد الحساب!';
+                document.getElementById('gameIdInput').disabled = true;
+                document.getElementById('gameIdInput').style.display = 'none';
+                setTimeout(() => {
+                    document.getElementById('idBtn').style.display = 'none';
+                }, 3000);
+            } else {
+                alert('أدخل هنا ID حسابك للعبة');
+            }
+        });
+
+        function selectSite(site) {
+            const sites = ['site1', 'site2', 'site3', 'site4', 'site5', 'site6', 'site7', 'site8'];
+            sites.forEach(s => {
+                document.getElementById(s).classList.remove('active');
+                document.getElementById(s).classList.add('inactive');
+            });
+
+            document.getElementById(site).classList.remove('inactive');
+            document.getElementById(site).classList.add('active');
+        }
+    </script>
+
 </body>
 </html>
